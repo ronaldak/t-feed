@@ -1,0 +1,21 @@
+{
+  "name": "t-feed",
+  "version": "1.0.0",
+  "description": "Simulated Twitter feed.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "genversion version.js",
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Ronald Klazar",
+  "license": "MIT",
+  "devDependencies": {
+    "genversion": "^2.1.0",
+    "jest": "^23.4.1"
+  },
+  "dependencies": {
+    "argparse": "^1.0.10"
+  }
+}
