@@ -16,6 +16,7 @@
     "jest": "^23.4.1"
   },
   "dependencies": {
-    "argparse": "^1.0.10"
+    "argparse": "^1.0.10",
+    "lodash": "^4.17.10"
   }
 }
