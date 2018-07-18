@@ -22,12 +22,12 @@ Users.prototype.parseFile = async function(userFile)
 		throw new Error("Error parsing user file");
 	}
 
-	this._followerMap = this._parseData(data);
+	this._parseData(data);
 };
 
 Users.prototype._parseData = function(data)
 {
-	return _.reduce(_.split(data, "\n"), (followersMap, line) => {
+	this._followerMap = _.reduce(_.split(data, "\n"), (followersMap, line) => {
 		if (line.length > 0)
 		{
 			const parts = _.compact(_.split(line, / |,|follows/));
@@ -55,6 +55,11 @@ Users.prototype._validateLine = function(line)
 		valid = false;
 
 	return valid;
+};
+
+Users.prototype.toSortedList = function()
+{
+	return _.keys(this._followerMap).sort();
 };
 
 Users.prototype.toJSON = function()

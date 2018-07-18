@@ -22,12 +22,12 @@ Tweets.prototype.parseFile = async function(tweetFile)
 		throw new Error("Error parsing tweet file");
 	}
 
-	this._tweetList = this._parseData(data);
+	this._parseData(data);
 };
 
 Tweets.prototype._parseData = function(data)
 {
-	return _.compact(_.map(_.split(data, "\n"), line => {
+	this._tweetList = _.compact(_.map(_.split(data, "\n"), line => {
 		let tweet;
 
 		if (line.length > 0)
