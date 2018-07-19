@@ -1,4 +1,4 @@
-const ArgumentParser = require("argparse").ArgumentParser;
+const { ArgumentParser } = require("argparse");
 
 // If the following module is missing, you probably haven't run 'npm build'
 const version = require("../version");
