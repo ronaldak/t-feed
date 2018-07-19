@@ -4,7 +4,7 @@ const util = require("util");
 
 const freadFile = util.promisify(fs.readFile);
 
-const MIN_USER_LINE_LENGTH = 2;
+const MIN_USER_LINE_LENGTH = 1;
 
 const Users = function()
 {
@@ -29,14 +29,15 @@ Users.prototype.loadFromFile = async function(userFile)
 
 Users.prototype._parseData = function(data)
 {
-	this._followerMap = _.reduce(_.split(data, "\n"), (followersMap, line) => {
+	this._followerMap = _.reduce(_.split(data, "\n"), (followersMap, line, index) => {
 		// Consider only non-empty lines
 		if (line.length > 0)
 		{
 			const parts = _.compact(_.split(line, / |,|follows/i));
+			const validationError = this._validateLine(parts);
 
-			if (!this._validateLine(parts))
-				throw new Error("Invalid line encountered in user file");
+			if (!_.isNil(validationError))
+				throw new Error("User file, line " + (index + 1) + ": " + validationError);
 
 			/* Ensure that every user mentioned anywhere in the user file is recorded
 			   in the followers map */
@@ -56,10 +57,10 @@ Users.prototype._parseData = function(data)
 
 Users.prototype._validateLine = function(line)
 {
-	let valid = true;
+	let valid;
 
 	if (line.length < MIN_USER_LINE_LENGTH)
-		valid = false;
+		valid = "insufficient users";
 
 	return valid;
 };

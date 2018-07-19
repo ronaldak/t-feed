@@ -109,7 +109,7 @@ module.exports = {
             "error",
             "unix"
         ],
-        "lines-around-comment": "error",
+        "lines-around-comment": "off",
         "lines-around-directive": "error",
         "lines-between-class-members": "error",
         "max-depth": "error",

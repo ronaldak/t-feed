@@ -32,16 +32,17 @@ Tweets.prototype.loadFromFile = async function(tweetFile)
 
 Tweets.prototype._parseData = function(data)
 {
-	this._tweetList = _.compact(_.map(_.split(data, "\n"), line => {
+	this._tweetList = _.compact(_.map(_.split(data, "\n"), (line, index) => {
 		let tweet;
 
 		// Consider only non-empty lines
 		if (line.length > 0)
 		{
 			const parts = _.invokeMap(_.split(line, ">"), "trim");
+			const validationError = this._validateLine(parts);
 
-			if (!this._validateLine(parts))
-				throw new Error("Invalid line encountered in tweet file");
+			if (!_.isNil(validationError))
+				throw new Error("Tweet file, line " + (index + 1) + ": " + validationError);
 
 			tweet = {
 				author: parts[0],
@@ -55,14 +56,16 @@ Tweets.prototype._parseData = function(data)
 
 Tweets.prototype._validateLine = function(line)
 {
-	let valid = true;
+	let valid;
 
-	if (line.length !== TWEET_LINE_LENGTH)
-		valid = false;
+	if (line.length < TWEET_LINE_LENGTH)
+		valid = "missing separator '>'";
+	else if (line.length > TWEET_LINE_LENGTH)
+		valid = "unexpected additional data";
 	else if (line[0].length < MIN_TWEET_AUTHOR_LENGTH)
-		valid = false;
+		valid = "author name must be at least 1 character long";
 	else if (line[1].length < MIN_TWEET_MESSAGE_LENGTH || line[1].length > MAX_TWEET_MESSAGE_LENGTH)
-		valid = false;
+		valid = "message must be from 1 to 140 characters long";
 
 	return valid;
 };

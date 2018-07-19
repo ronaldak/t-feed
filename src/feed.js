@@ -6,7 +6,6 @@ const Feed = function(users, tweets)
 
 Feed.prototype.for = function *(user)
 {
-
 	/* Iterate over all tweets, emitting a tweet if the given user is the author
 	   or follows the tweet's author */
 	for (const tweet of this._tweets)
