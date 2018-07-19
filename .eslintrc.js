@@ -152,7 +152,7 @@ module.exports = {
             "error",
             { "allowParens": true }
         ],
-		"no-console": "warn",
+		"no-console": "off",
         "no-continue": "error",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",

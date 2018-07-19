@@ -57,9 +57,17 @@ Users.prototype._validateLine = function(line)
 	return valid;
 };
 
-Users.prototype.toSortedList = function()
+Users.prototype.toSortedList = function *()
 {
-	return _.keys(this._followerMap).sort();
+	const sortedList = _.keys(this._followerMap).sort();
+
+	for (let i = 0; i < sortedList.length; i++)
+		yield sortedList[i];
+};
+
+Users.prototype.isFollower = function(user1, user2)
+{
+	return user1 in this._followerMap && _.includes(this._followerMap[user1], user2);
 };
 
 Users.prototype.toJSON = function()

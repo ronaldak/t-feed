@@ -61,6 +61,11 @@ Tweets.prototype._validateLine = function(line)
 	return valid;
 };
 
+Tweets.prototype[Symbol.iterator] = function *() {
+	for (let i = 0; i < this._tweetList.length; i++)
+		yield this._tweetList[i];
+};
+
 Tweets.prototype.toJSON = function()
 {
 	return this._tweetList;
