@@ -24,7 +24,7 @@ Tweets.prototype.loadFromFile = async function(tweetFile)
 	}
 	catch (error)
 	{
-		throw new Error("Error parsing tweet file");
+		throw new Error("cannot read tweet file");
 	}
 
 	this._parseData(data);

@@ -21,7 +21,7 @@ Users.prototype.loadFromFile = async function(userFile)
 	}
 	catch (error)
 	{
-		throw new Error("Error parsing user file");
+		throw new Error("cannot read user file");
 	}
 
 	this._parseData(data);
