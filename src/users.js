@@ -33,7 +33,7 @@ Users.prototype._parseData = function(data)
 		// Consider only non-empty lines
 		if (line.length > 0)
 		{
-			const parts = _.compact(_.split(line, / |,|follows/));
+			const parts = _.compact(_.split(line, / |,|follows/i));
 
 			if (!this._validateLine(parts))
 				throw new Error("Invalid line encountered in user file");
