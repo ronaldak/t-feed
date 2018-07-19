@@ -1,5 +1,6 @@
 const ArgumentParser = require("argparse").ArgumentParser;
 
+// If the following module is missing, you probably haven't run 'npm build'
 const version = require("../version");
 
 const parseArguments = function()

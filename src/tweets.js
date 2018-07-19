@@ -4,12 +4,17 @@ const util = require("util");
 
 const freadFile = util.promisify(fs.readFile);
 
+const TWEET_LINE_LENGTH = 2;
+const MIN_TWEET_MESSAGE_LENGTH = 1;
+const MAX_TWEET_MESSAGE_LENGTH = 140;
+const MIN_TWEET_AUTHOR_LENGTH = 1;
+
 const Tweets = function()
 {
 	this._tweetList = [];
 };
 
-Tweets.prototype.parseFile = async function(tweetFile)
+Tweets.prototype.loadFromFile = async function(tweetFile)
 {
 	let data;
 
@@ -30,6 +35,7 @@ Tweets.prototype._parseData = function(data)
 	this._tweetList = _.compact(_.map(_.split(data, "\n"), line => {
 		let tweet;
 
+		// Consider only non-empty lines
 		if (line.length > 0)
 		{
 			const parts = _.invokeMap(_.split(line, ">"), "trim");
@@ -51,11 +57,11 @@ Tweets.prototype._validateLine = function(line)
 {
 	let valid = true;
 
-	if (line.length !== 2)
+	if (line.length !== TWEET_LINE_LENGTH)
 		valid = false;
-	else if (line[0].length === 0)
+	else if (line[0].length < MIN_TWEET_AUTHOR_LENGTH)
 		valid = false;
-	else if (line[1].length === 0 || line[1].length > 140)
+	else if (line[1].length < MIN_TWEET_MESSAGE_LENGTH || line[1].length > MAX_TWEET_MESSAGE_LENGTH)
 		valid = false;
 
 	return valid;
