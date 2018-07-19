@@ -43,12 +43,14 @@ Users.prototype._parseData = function(data)
 			   in the followers map */
 			_.forEach(parts, part => {
 				if (!(part in followersMap))
-					followersMap[part] = [];
+					followersMap[part] = new Set();
 			});
 
 			/* Ensure that we gather all of a user's follows in cases where a user is
          mentioned on multiple lines */
-			followersMap[parts[0]] = _.union(followersMap[parts[0]], _.slice(parts, 1));
+      _.forEach(_.slice(parts, 1), user => {
+				followersMap[parts[0]].add(user);
+      });
 		}
 
 		return followersMap;
@@ -77,12 +79,20 @@ Users.prototype.toSortedList = function *()
 Users.prototype.isFollower = function(user1, user2)
 {
 	// Is user1 a follower of user2?
-	return user1 in this._followerMap && _.includes(this._followerMap[user1], user2);
+	return user1 in this._followerMap && this._followerMap[user1].has(user2);
 };
 
 Users.prototype.toJSON = function()
 {
-	return this._followerMap;
+	return _.reduce(this._followerMap, (acc, followers, user) => {
+		if (!(user in acc))
+			acc[user] = [];
+
+		for (const follower of followers.values())
+			acc[user].push(follower);
+
+		return acc;
+	}, {});
 };
 
 module.exports = Users;
